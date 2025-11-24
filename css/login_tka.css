@@ -1,0 +1,104 @@
+body {
+    background-color: #f1f3f6;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+/* Bagian biru atas */
+.top-bg {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #0d6efd 0%, #004aad 100%);
+    position: relative;
+    display: flex;
+    padding-top: 40px;
+    justify-content: center;
+    color: white;
+    text-align: center;
+}
+
+
+.logo {
+    height: 60px;
+    margin-bottom: 10px;
+}
+
+/* Card login */
+.login-card {
+    width: 100%;
+    max-width: 420px;
+    background: #fff;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    margin-top: -80px;
+}
+.card-body {
+    padding: 20px 30px;
+}
+
+.form-icon{
+    font-size: 2rem;
+    margin-right: 10px;
+    color: #b9bbbd;
+}
+.icon-lock {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1.2rem;
+    margin-right: 12px;
+    margin-left: 5px;
+    background: #b9bbbd;
+    color:white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.border-bottom-only {
+    border: none;
+    border-bottom: 2px solid #ccc;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.border-bottom-only:focus {
+    border-bottom: 2px solid #0d6efd;
+    box-shadow: none;
+    outline: none;
+}
+
+.card-footer{
+    border-top: none;
+    height: 40px;
+}
+
+.form-floating label {
+    color: #6c757d;
+}
+
+.btn-login {
+    background-color: #007bff;
+    border: none;
+    padding: 10px;
+    font-weight: 500;
+}
+
+.btn-login:hover {
+    background-color: #0069d9;
+}
+
+/* Toggle password icon */
+.password-toggle {
+    position: absolute;
+    top: 50%;
+    right: 15px;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #6c757d;
+}

@@ -1,0 +1,1 @@
+open vertical bar open curly brackets open square brackets open vertical bar blank subscript blank close vertical bar close square brackets close curly brackets close vertical bar
