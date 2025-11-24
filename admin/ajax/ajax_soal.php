@@ -54,8 +54,6 @@ function simpanData($mode, $mysqli){
          parameter = '$parameter',
          kunci = '$kunci',
       bobot = '$bobot'");	
-      $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
-      echo $totalbobot[0];
    }else{         
       mysqli_query($mysqli, "UPDATE soal SET 
          jenis = '$jenis',
@@ -68,9 +66,17 @@ function simpanData($mode, $mysqli){
          parameter = '$parameter',
          kunci = '$kunci',
       bobot = '$bobot' WHERE id_soal='$_POST[id]'");
-      $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
-      echo $totalbobot[0];
    }
+   
+   $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
+   $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
+
+   $data = [
+      "bobot" => (int) $totalbobot[0] ?? 0,
+      "soal"  => (int) $totalsoal
+   ];
+  
+   echo json_encode($data);
 }
 
 //Menampilkan data ke tabel
@@ -163,13 +169,22 @@ elseif($_GET['action'] == "update"){
 //Menghapus data
 elseif($_GET['action'] == "delete"){
    mysqli_query($mysqli, "DELETE FROM soal WHERE id_soal='$_GET[id]'");	
+   
+   
    $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
-   echo $totalbobot[0];;
+   $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
+
+   $data = [
+      "bobot" => (int) $totalbobot[0] ?? 0,
+      "soal"  => (int) $totalsoal
+   ];
+  
+   echo json_encode($data);
 }
 
 //Import data dari format Excel
 elseif($_GET['action'] == "import"){
-   include"../../assets/excel_reader/excel_reader.php";
+   include "../../assets/excel_reader/excel_reader.php";
    $filename = strtolower($_FILES['file']['name']);
    $extensi  = substr($filename,-4);
 		
@@ -213,8 +228,16 @@ elseif($_GET['action'] == "import"){
      }	
     
      unlink($file);
-     $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
-     echo $totalbobot[0];
+     
+      $totalbobot = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(bobot) FROM soal WHERE id_ujian='$_GET[ujian]'"));
+      $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
+
+      $data = [
+         "bobot" => (int) $totalbobot[0] ?? 0,
+         "soal"  => (int) $totalsoal
+      ];
+   
+      echo json_encode($data);
    }
 
 }

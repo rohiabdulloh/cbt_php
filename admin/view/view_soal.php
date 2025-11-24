@@ -30,16 +30,16 @@ echo '<hr/><div class="alert alert-info"><table width="100% no-ajax">
    <tr>
       <td>Judul Ujian</td><td>:<b> '.$ru['judul'].'</b></td>
       <td>Tanggal</td><td>:<b> ' .tgl_indonesia($ru['tanggal']).' </b></td>
-      <td>Total Bobot.</td><td><label class="label label-primary total-bobot">:<b> '.$totalbobot[0].'</b></label></td>
+      <td>Total Bobot.</td><td><label class="label label-primary">: <b><span class="totalbobot">'.$totalbobot[0].' </span> / 100 </b></label></td>
    </tr>
    <tr>
       <td>Nama Mapel</td><td>:<b> '.$ru['nama_mapel'].'</b></td>
-      <td>Jml. Soal</td><td>:<b> '.$totalsoal.' / '.$ru['jml_soal'].'</b></td>
-      <td>Status</td><td>:<b> ';
-   if($totalsoal<$ru['jml_soal']){
-      echo '<span class="text-danger">Belum Lengkap</span>';
+      <td>Jml. Soal</td><td>:<b> <span class="totalsoal" data-max="'.$ru['jml_soal'].'"> '.$totalsoal.' </span>/ '.$ru['jml_soal'].'</b></td>
+      <td>Status</td><td>:<b class="status"> ';
+   if($totalsoal>=$ru['jml_soal'] or $totalbobot[0] >= 100){
+      echo '<span class="text-success"> Lengkap</span>';
    } else {
-      echo '<span class="text-success">Lengkap</span>';
+      echo '<span class="text-danger"> Belum Lengkap</span>';
    }
 echo '</b></td>
    </tr>

@@ -86,8 +86,29 @@ function ubah_jenis(){
    }
 };
 
-function update_tbobot(bobot){
-   $('.total-bobot').text(bobot);
+function update_status(data){
+   // Jika data masih string, ubah ke object
+   if (typeof data === "string") {
+      data = JSON.parse(data);
+   }
+
+   // baca nilai bobot & soal
+   let bobot = parseInt(data.bobot);
+   let soal  = parseInt(data.soal);
+
+   // update ke HTML
+   $('.totalbobot').text(bobot);
+   $('.totalsoal').text(soal);
+
+   // ambil nilai maksimal soal dari HTML
+   let maxSoal = parseInt($('.totalsoal').data('max'));
+
+   // update status
+   if (data.soal >= maxSoal || data.bobot >= 100) {
+       $('.status').html('<span class="text-success"> Lengkap</span>');
+   } else {
+       $('.status').html('<span class="text-danger"> Belum Lengkap</span>');
+   }
 }
 
 //Ketika tombol tambah diklik
@@ -213,7 +234,7 @@ function save_data(){
          if(data!==null){
             $('#modal_soal').modal('hide');
             table.ajax.reload();     
-            update_tbobot(data);
+            update_status(data);
          }else{
             showError(data);
          }
@@ -233,7 +254,7 @@ function delete_data(id){
          type : "GET",
          success : function(data){
             table.ajax.reload();
-            update_tbobot(data);
+            update_status(data);
          },
          error : function(){
             showError("Tidak dapat menghapus data!");
@@ -322,7 +343,7 @@ function import_data(){
          if(data!==null){
             $('#modal_import').modal('hide');
             table.ajax.reload();
-            update_tbobot(data);
+            update_status(data);
          }else{
             showError(data);
          }
