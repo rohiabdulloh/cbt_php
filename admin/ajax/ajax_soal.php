@@ -72,7 +72,7 @@ function simpanData($mode, $mysqli){
    $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
 
    $data = [
-      "bobot" => (int) $totalbobot[0] ?? 0,
+      "bobot" => (int) $totalbobot[0],
       "soal"  => (int) $totalsoal
    ];
   
@@ -175,7 +175,7 @@ elseif($_GET['action'] == "delete"){
    $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
 
    $data = [
-      "bobot" => (int) $totalbobot[0] ?? 0,
+      "bobot" => (int) $totalbobot[0] ,
       "soal"  => (int) $totalsoal
    ];
   
@@ -233,7 +233,7 @@ elseif($_GET['action'] == "import"){
       $totalsoal = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]'"));
 
       $data = [
-         "bobot" => (int) $totalbobot[0] ?? 0,
+         "bobot" => (int) $totalbobot[0] ,
          "soal"  => (int) $totalsoal
       ];
    
