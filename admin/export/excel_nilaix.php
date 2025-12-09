@@ -15,9 +15,8 @@ echo '<table border="1">
 <td>NIS</td>
 <td>Nama Siswa</td>
 <td>Kelas</td>
+<td>Jml. Benar</td>
 <td>Nilai PG</td>
-<td>Nilai PG Kompleks</td>
-<td>Nilai Mencocokkan</td>
 <td>Nilai Esay</td>
 <td>Total Nilai</td>
 </tr>';
@@ -25,41 +24,15 @@ $query=mysqli_query($mysqli,"SELECT * From siswa where id_kelas='$_GET[kelas]'")
 $no=1;
 while($r=mysqli_fetch_array($query)){
 	$n=mysqli_fetch_array(mysqli_query($mysqli,"SELECT * FROM nilai WHERE nis='$r[nis]' and id_ujian='$_GET[ujian]'"));
-	$nilaiesay = mysqli_fetch_row(mysqli_query(
-		$mysqli,
-		"SELECT SUM(jawaban.nilai) 
-		FROM jawaban
-		JOIN soal ON jawaban.id_soal = soal.id_soal
-		WHERE jawaban.nis = '$r[nis]'
-		   AND jawaban.id_ujian = '$_GET[ujian]'
-		   AND soal.jenis = 1"
-  	));
-
-	$nilaikompleks = mysqli_fetch_row(mysqli_query(
-		$mysqli,
-		"SELECT SUM(jawaban.nilai) 
-		FROM jawaban
-		JOIN soal ON jawaban.id_soal = soal.id_soal
-		WHERE jawaban.nis = '$r[nis]'
-		   AND jawaban.id_ujian = '$_GET[ujian]'
-		   AND soal.jenis = 2"
-  	));
-
-	$nilaimencocokkan = mysqli_fetch_row(mysqli_query(
-		$mysqli,
-		"SELECT SUM(jawaban.nilai) 
-		FROM jawaban
-		JOIN soal ON jawaban.id_soal = soal.id_soal
-		WHERE jawaban.nis = '$r[nis]'
-		   AND jawaban.id_ujian = '$_GET[ujian]'
-		   AND soal.jenis = 3"
-  	));
-
-	$nilaipg = $n['nilai'] - $nilaikompleks[0] - $nilaimencocokkan[0];
+	$nilaiesay = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(nilai) FROM jawaban WHERE nis='$r[nis]' AND id_ujian='$_GET[ujian]'"));
 
 	if($n){
-		$total = $n['nilai'] + $nilaiesay[0];
+		$jml_benar = $n['jml_benar'];
+		$nilaipg = $n['nilai'];
+		$total = $nilaipg + $nilaiesay[0];
 	}else{
+		$jml_benar = '';
+		$nilaipg = '';
 		$total = '';
 	}
 	echo '<tr>
@@ -67,9 +40,8 @@ while($r=mysqli_fetch_array($query)){
 <td>'.$r['nis'].'</td>
 <td>'.$r['nama'].'</td>
 <td>'.$rkelas['kelas'].'</td>
+<td>'.$jml_benar.'</td>
 <td>'.$nilaipg.'</td>
-<td>'.$nilaikompleks[0].'</td>
-<td>'.$nilaimencocokkan[0].'</td>
 <td>'.$nilaiesay[0].'</td>
 <td>'.$total.'</td>
 </tr>';

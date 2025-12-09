@@ -35,7 +35,7 @@
 
 <footer> 
    <div class="container">
-      <p class="text-center">Copyright &copy; sansoftware komputer ver 04. All right reserved.</p>
+      <p class="text-center">Copyright &copy; sansoftware komputer ver 05. All right reserved.</p>
    </div>
 </footer>
 	

@@ -22,18 +22,12 @@ ob_start();
    
 include "../../library/config.php";
 	
-$totalnilai = mysqli_fetch_row(mysqli_query(
-    $mysqli,
-    "SELECT SUM(jawaban.nilai)
-     FROM jawaban
-     JOIN soal ON jawaban.id_soal = soal.id_soal
-     WHERE jawaban.id_ujian = '$_GET[ujian]'
-       AND jawaban.nis = '$_GET[nis]'
-       AND soal.jenis = 1"
-));
 $query = mysqli_query($mysqli, "SELECT * FROM siswa t1
     LEFT JOIN kelas t2 ON t1.id_kelas=t2.id_kelas
     WHERE t1.nis='$_GET[nis]'");
+
+$rnilai = mysqli_fetch_array(mysqli_query($mysqli, "SELECT * FROM nilai WHERE id_ujian='$_GET[ujian]' AND nis='$_GET[nis]'"));
+$nilai = $rnilai ? $rnilai['nilai'] : 0;
 $siswa = mysqli_fetch_array($query);
 echo "<table class='table-border' cellspacing='0' cellpadding='3' border='1'>";
 echo "<tr>
@@ -65,27 +59,48 @@ echo "<tr>
             NILAI
         </td>
     </tr>
-    <tr><td height='40' align='center' style='font-size: 25'>".$totalnilai[0]."</td></tr>";
+    <tr><td height='40' align='center' style='font-size: 25'>".$nilai."</td></tr>";
 
-$qjawab = mysqli_query($mysqli, "SELECT * FROM jawaban t1
-    LEFT JOIN soal t2 ON t1.id_soal=t2.id_soal
-    WHERE t1.nis='$_GET[nis]' AND t1.id_ujian='$_GET[ujian]' AND t2.jenis='1'");
-$no = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]' AND jenis!='1'"));
-while($j=mysqli_fetch_array($qjawab)){
-    $no++;
-    echo "<tr>
-        <td colspan='3'>
-            <table><tr>
-            <td width='25' class='align-top' align='center'><p>$no.</p></td>
-            <td width='675' class='align-top'>
-                <i> $j[soal]</i>
-                Jawaban: $j[jawaban] 
-            </td>
-            <td>
-                $j[nilai]
-            </td>
-            </tr></table>
-        </td></tr>";
+
+$arr_soal = explode(",", $rnilai['acak_soal']);
+$arr_jawaban = explode(",", $rnilai['jawaban']);
+for($s=0; $s<count($arr_soal); $s++){
+    $no = $s + 1;
+    $rsoal = mysqli_fetch_array(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_soal='$arr_soal[$s]'"));
+    if($rsoal){
+        if($rsoal['jenis'] == 0){
+            echo "<tr>
+                <td colspan='3'>
+                    <table>
+                    <tr>
+                        <td width='25' class='align-top' align='center'><p>$no.</p></td>
+                        <td width='675' class='align-top' colspan='2'><i> $rsoal[soal]</i></td>
+                    </tr>";
+            $arr_huruf = [1=>'A', 'B', 'C', 'D', 'E'];
+            for($i=1; $i<=5; $i++){	
+                $kolom = "pilihan_$i";
+                if($i==$rsoal['kunci']){
+                    $warna = "blue";
+                    $tebal = "bold";
+                    if($arr_jawaban[$s]==$i) $warna = "green";
+                }else{
+                    $warna = "black";
+                    $tebal = "normal";
+                    if($i==$arr_jawaban[$s]){
+                        $warna = "red";
+                        $tebal = "bold";
+                    }
+                }
+                
+                echo "<tr style='color: $warna; font-weight: $tebal;'>
+                    <td></td>
+                    <td width='25'><p>$arr_huruf[$i].</p></td>
+                    <td width='650'>$rsoal[$kolom]</td>
+                </tr>";
+            }
+            echo "</table></td></tr>";
+        }
+    }
 }
 echo "</table>";
 ?>

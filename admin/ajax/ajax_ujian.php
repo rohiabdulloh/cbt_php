@@ -21,7 +21,7 @@ if($_GET['action'] == "table_data"){
 	  $row[] = substr($r['mulai'],0,5);
 	  $row[] = substr($r['selesai'],0,5);
       $row[] = $r['jml_soal'];
-      $row[] = $user['nama'] ?? '';
+      $row[] = isset($user['nama']) ? $user['nama'] : '';
       $row[] = create_action($r['id_ujian']);
       $data[] = $row;
       $no++;

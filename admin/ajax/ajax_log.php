@@ -1,8 +1,7 @@
 <?php
 session_start();
 include "../../library/config.php";
-include "../../library/function_date.php";
-include "../../library/function_view.php";
+include "../../library/function_date.php"; // kalau mau format tanggal indonesia
 
 // Menampilkan data log login ke tabel
 if($_GET['action'] == "table_data"){
@@ -22,16 +21,12 @@ if($_GET['action'] == "table_data"){
         $row[] = tgl_indonesia($r['tanggal']); // Tanggal (format Indonesia)
         $row[] = $r['jam'];                  // Jam
         $row[] = $r['nama'];                 // Nama User
-        $row[] = $r['ip_address'];   
-        $row[] = create_action($r['id_log'], false, true);        
+        $row[] = $r['ip_address'];           // IP Address
         $data[] = $row;
         $no++;
     }
 
     $output = array("data" => $data);
     echo json_encode($output);
-}
-elseif($_GET['action'] == "delete"){
-   mysqli_query($mysqli, "DELETE FROM log_login WHERE id_log='$_GET[id]'");	
 }
 ?>

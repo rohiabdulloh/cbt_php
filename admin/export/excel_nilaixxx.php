@@ -15,11 +15,7 @@ echo '<table border="1">
 <td>NIS</td>
 <td>Nama Siswa</td>
 <td>Kelas</td>
-<td>Nilai PG</td>
-<td>Nilai PG Kompleks</td>
-<td>Nilai Mencocokkan</td>
-<td>Nilai Esay</td>
-<td>Total Nilai</td>
+<td>Nilai</td>
 </tr>';
 $query=mysqli_query($mysqli,"SELECT * From siswa where id_kelas='$_GET[kelas]'");
 $no=1;
@@ -35,30 +31,8 @@ while($r=mysqli_fetch_array($query)){
 		   AND soal.jenis = 1"
   	));
 
-	$nilaikompleks = mysqli_fetch_row(mysqli_query(
-		$mysqli,
-		"SELECT SUM(jawaban.nilai) 
-		FROM jawaban
-		JOIN soal ON jawaban.id_soal = soal.id_soal
-		WHERE jawaban.nis = '$r[nis]'
-		   AND jawaban.id_ujian = '$_GET[ujian]'
-		   AND soal.jenis = 2"
-  	));
-
-	$nilaimencocokkan = mysqli_fetch_row(mysqli_query(
-		$mysqli,
-		"SELECT SUM(jawaban.nilai) 
-		FROM jawaban
-		JOIN soal ON jawaban.id_soal = soal.id_soal
-		WHERE jawaban.nis = '$r[nis]'
-		   AND jawaban.id_ujian = '$_GET[ujian]'
-		   AND soal.jenis = 3"
-  	));
-
-	$nilaipg = $n['nilai'] - $nilaikompleks[0] - $nilaimencocokkan[0];
-
 	if($n){
-		$total = $n['nilai'] + $nilaiesay[0];
+		$total = $n + $nilaiesay[0];
 	}else{
 		$total = '';
 	}
@@ -67,10 +41,6 @@ while($r=mysqli_fetch_array($query)){
 <td>'.$r['nis'].'</td>
 <td>'.$r['nama'].'</td>
 <td>'.$rkelas['kelas'].'</td>
-<td>'.$nilaipg.'</td>
-<td>'.$nilaikompleks[0].'</td>
-<td>'.$nilaimencocokkan[0].'</td>
-<td>'.$nilaiesay[0].'</td>
 <td>'.$total.'</td>
 </tr>';
 $no++;

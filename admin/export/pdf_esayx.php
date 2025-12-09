@@ -22,15 +22,7 @@ ob_start();
    
 include "../../library/config.php";
 	
-$totalnilai = mysqli_fetch_row(mysqli_query(
-    $mysqli,
-    "SELECT SUM(jawaban.nilai)
-     FROM jawaban
-     JOIN soal ON jawaban.id_soal = soal.id_soal
-     WHERE jawaban.id_ujian = '$_GET[ujian]'
-       AND jawaban.nis = '$_GET[nis]'
-       AND soal.jenis = 1"
-));
+$totalnilai = mysqli_fetch_row(mysqli_query($mysqli, "SELECT SUM(nilai) FROM jawaban WHERE id_ujian='$_GET[ujian]' AND nis='$_GET[nis]'"));
 $query = mysqli_query($mysqli, "SELECT * FROM siswa t1
     LEFT JOIN kelas t2 ON t1.id_kelas=t2.id_kelas
     WHERE t1.nis='$_GET[nis]'");
@@ -69,8 +61,8 @@ echo "<tr>
 
 $qjawab = mysqli_query($mysqli, "SELECT * FROM jawaban t1
     LEFT JOIN soal t2 ON t1.id_soal=t2.id_soal
-    WHERE t1.nis='$_GET[nis]' AND t1.id_ujian='$_GET[ujian]' AND t2.jenis='1'");
-$no = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]' AND jenis!='1'"));
+    WHERE t1.nis='$_GET[nis]' AND t1.id_ujian='$_GET[ujian]'");
+$no = mysqli_num_rows(mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$_GET[ujian]' AND jenis='0'"));
 while($j=mysqli_fetch_array($qjawab)){
     $no++;
     echo "<tr>

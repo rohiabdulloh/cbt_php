@@ -39,7 +39,7 @@ while($r = mysqli_fetch_array($query)){
    </td>
  
    <td width='60' align='center'>
-      <img src='../../images/logo9.png' width='200'>
+      <img src='../../images/logo8.png' width='200'>
    </td>
 
    <td width='40' align='center'>
@@ -66,8 +66,6 @@ while($r = mysqli_fetch_array($query)){
 <table width='100%' cellspacing='0'>
 <tr><td width='25%'>Nama</td><td>: $nama</td></tr>
 <tr><td>Kelas</td><td>: $kls[kelas]</td></tr>
-<tr><td>Username</td><td>: <b>$r[nis]</b></td></tr>
-<tr><td>Password</td><td>: <b>$password</b></td></tr>
 <tr><td>Ruang</td><td>: $r[no_ruang]</td></tr>
 </table>
 
@@ -83,7 +81,7 @@ while($r = mysqli_fetch_array($query)){
    </td>
 
    <td width='0' align='center'>
-      <img src='../../images/ttd.png' width='160'>
+      <img src='../../images/ttd.png' width='150'>
    </td>
 </tr>
 </table>
