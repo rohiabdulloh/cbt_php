@@ -30,6 +30,7 @@ if($_SESSION['leveluser'] == "admin"){
    echo menu_admin("view/view_bagiruang_admin.php", "th-large", "Bagi Ruang");
    echo menu_admin("view/view_pengaturan.php", "cog", "Pengaturan");
    echo menu_admin("view/view_log.php", "history", "Log Login");
+   echo menu_admin("view/view_backup_restore.php", "database", "Backup & Restore");
 }
 
 elseif($_SESSION['leveluser'] == "operator"){
