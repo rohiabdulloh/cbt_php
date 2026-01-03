@@ -43,7 +43,7 @@ $(function(){
          $('.btn-time').hide();
          $('.btn-end').show();
       }
-      $('.btn-time').text('(Tunggu ' + (minwaktu - menitTerpakai) + ' menit lagi)');
+      $('.btn-time').text('(Tunggu ' + (minwaktu - menitTerpakai) + ':' + detik +' menit)');
       
 
       //Mendeteksi waktu habis

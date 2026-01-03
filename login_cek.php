@@ -2,6 +2,7 @@
 session_start();
 include "library/config.php";
 include "library/function_antiinjection.php";
+include "library/function_getip.php";
 
 
 //-----------------------------------------------------------------------------------------------------------------------
@@ -78,7 +79,7 @@ if($jmluser > 0){
          $id_user = $data['nis'];
          $tanggal = date("Y-m-d");     // format DATE
          $jam     = date("H:i:s");     // format TIME
-         $ip_address = $_SERVER['REMOTE_ADDR']; // ambil IP user
+         $ip_address = getClientIp(); // ambil IP user
 
          mysqli_query($mysqli, "INSERT INTO log_login (id_user, tanggal, jam, ip_address) 
                                  VALUES ('$id_user', '$tanggal', '$jam', '$ip_address')");
