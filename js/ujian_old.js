@@ -2,7 +2,7 @@ var menit, detik;
 var ujian, sisa_waktu;
 var t, jamskr, menitskr, detikskr;
 var mulai, selesai;
-var counterUpdate = 0;
+var counterUpdate;
 
 //Mengatur agar waktu ujian berjalan mundur
 $(function(){		
@@ -31,6 +31,20 @@ $(function(){
 		
       $('#sisa_waktu').val(menit+':'+detik);
 		
+      //Skrip menggunakan jam sekarang
+      /*t = new Date();
+      jamskr = t.getHours();
+      menitskr = t.getMinutes();
+      detikskr = t.getSeconds();
+      
+      if(jamskr<10) jamskr = "0"+jamskr;
+      if(menitskr<10) menitskr = "0"+menitskr;
+      if(detikskr<10) detikskr = "0"+detikskr;
+      $('.jam').text(jamskr);
+      $('.menit').text(menitskr);
+      $('.detik').text(detikskr);
+      */
+
 
       //Menghitung minimal waktu
       
@@ -48,36 +62,14 @@ $(function(){
 
       //Mendeteksi waktu habis
       if(menit == "00" && detik == "00"){
-         updateTime();
          selesaikan();
          $('#modal-selesai .modal-title').text("Waktu Habis!");
          $('#modal-selesai .modal-body').text("Waktu Habis. Klik Selesai untuk memproses nilai!");
          $('#modal-selesai .btn-warning').hide();
       }
 
-      //Update sisa waktu ke server setiap 1 menit
-      counterUpdate++;
-
-      if (counterUpdate >= 60) {
-         counterUpdate = 0;
-         updateTime();
-      }
    }, 1000);
 });
-
-function updateTime(){   
-   var ujian = $('#ujian').val();
-   var sisa_waktu = $('#sisa_waktu').val();
-   
-   $.ajax({
-      url: "ajax_ujian.php?action=update_waktu",
-      type: "POST",
-      data: {
-            ujian: ujian,
-            sisa_waktu: sisa_waktu
-      }
-   });
-}
 
 //Ketika tombol nomor soal atau tombol navigasi diklik
 function tampil_soal(no){
