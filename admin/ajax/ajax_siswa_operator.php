@@ -26,7 +26,7 @@ if($_GET['action'] == "table_data"){
 	  $row[] = $r['jmlog'];
       $row[] = $status;
       $row[] = $r['browser'];
-       $row[] = $r['ip'];
+      $row[] = $r['ip'];
       $row[] = '<a class="btn btn-danger" onclick="reset_login('.$r['nis'].')"><i class="glyphicon glyphicon-off"></i>Reset</a>';
 	  $row[] = '<a class="btn btn-default active" onclick="Lock_login('.$r['nis'].')"><i class="glyphicon glyphicon-off"></i>Lock IP</a>';
       $data[] = $row;
