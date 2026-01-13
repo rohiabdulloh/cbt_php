@@ -67,13 +67,14 @@ while($r = mysqli_fetch_array($query)){
 <tr><td width='25%'>Nama</td><td>: $nama</td></tr>
 <tr><td>Kelas</td><td>: $kls[kelas]</td></tr>
 <tr><td>Ruang</td><td>: $r[no_ruang]</td></tr>
+<tr><td>Username</td><td>: <b>$r[nis]</b></td></tr>
 </table>
 
 <table width='50%' style='width: 350px' cellspacing='0'>
  
 <tr class='bBottom'>
    <td width='60' align='center'>
-     <img src='../../images/barcode.png' width='65'>
+     
    </td>
  
    <td width='60' align='center'>

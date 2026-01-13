@@ -3,6 +3,11 @@
 session_start();
 include "library/config.php"; 
 include "library/cek_blok.php";
+include "library/cek_ip.php";
+
+
+
+
 
 if(empty($_SESSION['username']) or empty($_SESSION['password']) ){
    header('location: login.php');
@@ -61,14 +66,30 @@ if(mysqli_num_rows($qnilai) < 1){
 $qnilai = mysqli_query($mysqli, "SELECT * FROM nilai WHERE nis='$_SESSION[nis]' AND id_ujian='$_GET[ujian]'");
 $rnilai = mysqli_fetch_array($qnilai);
 $sisa_waktu = explode(":", $rnilai['sisa_waktu']);
+$menit = isset($sisa_waktu[0]) ? $sisa_waktu[0] : '00';
+$detik = isset($sisa_waktu[1]) ? $sisa_waktu[1] : '00';
 
-echo '<h3 class="page-header"><b>Mapel: '.$rujian['nama_mapel'].' <span class="pull-right"> Waktu: 
-   <div class="label label-primary">
-   <span class="jam"></span> :
-   <span class="menit"></span> : 
-   <span class="detik"></span>
-   </div>
-   </span></b></h3>
+echo '<h3 class="page-header">
+  <div class="row">
+    
+    <!-- Mapel -->
+    <div class="col-xs-12 col-sm-7">
+      <b>Mapel: ' . htmlspecialchars($rujian['nama_mapel']) . '</b>
+    </div>
+
+    <!-- Sisa Waktu -->
+    <div class="col-xs-12 col-sm-5 text-right">
+      <b>
+        Sisa Waktu:
+        <span class="label label-primary">
+          <span class="menit">' . $menit . '</span> :
+          <span class="detik">' . $detik . '</span>
+        </span>
+      </b>
+    </div>
+
+  </div>
+</h3>
 
 <input type="hidden" id="ujian" value="'.$_GET['ujian'].'">
 <input type="hidden" id="waktu" value="'.$rujian['waktu'].'">
@@ -264,7 +285,7 @@ if($rsoal['jenis'] == 0){
    echo '</div><br/><div class="row"><div class="col-md-3">';
    
    $sebelumnya = $no-1;
-   if($no != 1) echo '<a class="btn btn-primary btn-blockl" onclick="tampil_soal('.$sebelumnya.')">Sebelumnya</a>';
+   if($no != 1) echo '<a class="btn btn-primary btn-block" onclick="tampil_soal('.$sebelumnya.')">Sebelumnya</a>';
    echo '</div>
    <div class="col-md-4 col-md-offset-1"><label class="btn btn-warning btn-block"> <input type="checkbox" autocomplete="off" onchange="ragu_ragu('.$no.')"> Ragu-ragu </label></div>	
 <div class="col-md-3 col-md-offset-1">';
@@ -311,3 +332,7 @@ echo '<div class="modal fade" id="modal-selesai" tabindex="-1" role="dialog" ari
 		
 </form></div></div></div>';
 ?>
+
+
+
+

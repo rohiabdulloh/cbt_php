@@ -12,6 +12,10 @@ while($r = mysqli_fetch_array($query)){
    $qsoal = mysqli_query($mysqli, "SELECT * FROM soal WHERE id_ujian='$r[id_ujian]'");
    $btn_soal = '<a class="btn btn-primary btn-sm" onclick="show_soal('.$r['id_ujian'].')"><i class="glyphicon glyphicon-edit"></i> Edit &nbsp;&nbsp;<span class="label label-warning">'.mysqli_num_rows($qsoal).'</span></a>';
 
+
+
+
+
 //Membuat tombol kelas untuk melihat nilai	
    $qkelas = mysqli_query($mysqli, "SELECT * FROM kelas t1, kelas_ujian t2 WHERE t1.id_kelas=t2.id_kelas AND t2.id_ujian='$r[id_ujian]'");
    $label = "";

@@ -106,3 +106,31 @@ function detail_jawaban(nis){
    window.open("export/pdf_detail_jawaban.php?ujian="+ujian+"&nis="+nis, "Detail Jawaban", "height=650, width=1024, left=150, scrollbars=yes");
    return false;
 }
+
+function update_nilai(){
+    ujian = $('#id_ujian').val();
+    kelas = $('#id_kelas').val();
+    
+    // Konfirmasi sebelum memproses semua siswa
+    if(confirm("Apakah yakin ingin menghitung ulang nilai SEMUA siswa di kelas ini? Proses ini mungkin memakan waktu!")){
+        $.ajax({
+            // Panggil action 'hitung_ulang_kelas' di ajax_nilai.php
+            url : "ajax/ajax_nilai.php?action=update_nilai&ujian=" + ujian + "&kls=" + kelas,
+            type : "GET",
+            dataType : "JSON", 
+            success : function(data){
+                if(data.success){
+                    showSuccess(data.message);
+                } else {
+                    showError('Gagal: ' + data.message);
+                }
+                // Muat ulang tabel setelah proses selesai
+                table.ajax.reload();
+            },
+            error : function(xhr, status, error){
+                // Tangani kesalahan Ajax
+                showError("Terjadi kesalahan saat memproses nilai massal: " + xhr.responseText);
+            }
+        });
+    }
+}

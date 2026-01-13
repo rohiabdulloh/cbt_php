@@ -13,6 +13,6 @@ include "../../library/function_view.php";
 create_title("history", "Log Login");
 open_content();
 
-create_table(array("Tanggal", "Jam", "Nama User", "Alamat IP", "Aksi"));
+create_table(array("Tanggal", "Jam", "Nama User", "Alamat IP"));
 close_content();
 ?>

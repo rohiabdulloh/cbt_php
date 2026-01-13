@@ -54,7 +54,7 @@ $qnilai = mysqli_query($mysqli, "SELECT * FROM nilai WHERE id_ujian='$_GET[ujian
 $tnilai = mysqli_num_rows($qnilai);
 $rnilai = mysqli_fetch_array($qnilai);
 
-if($tnilai>0 and $rnilai['nilai'] != "" and $rnilai['nilai'] != 0)  echo '<a class="btn btn-danger disabled"> Sudah mengerjakan </a>';
+if($tnilai>0 and $rnilai['nilai'] != "" and $rnilai['nilai'] != null)  echo '<a class="btn btn-danger disabled"> Sudah mengerjakan </a>';
 else echo '<a class="btn btn-primary" onclick="show_petunjuk('.$_GET['ujian'].')">
 <i class="glyphicon glyphicon-log-in"></i> Masuk Ujian</a>';
 ?>

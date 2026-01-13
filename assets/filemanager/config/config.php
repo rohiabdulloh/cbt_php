@@ -1,7 +1,8 @@
 <?php
 session_start();
 mb_internal_encoding('UTF-8');
-$folder_website = "/cbtsmawon25";
+include "../../library/config.php";
+
 	
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,8 @@ $config = array(
 	|
 	*/
 	'upload_dir' => $folder_website.'/media/source/',
+	
+	
 
 	/*
 	|--------------------------------------------------------------------------

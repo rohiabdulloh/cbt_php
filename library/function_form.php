@@ -36,7 +36,7 @@ function create_textarea($label, $name, $class='', $attr=''){
 
 
 //Fungsi untuk membuat combobox / select box
-function create_combobox($label, $name, $list, $width='5', $class="", $attr="", $value="",){
+function create_combobox($label, $name, $list, $width='5', $class="", $attr="", $value=""){
    echo'<div class="form-group row mb-2">
    <label for="'.$name.'" class="col-sm-2 control-label"> '.$label.'</label>
    <div class="col-sm-'.$width.'">

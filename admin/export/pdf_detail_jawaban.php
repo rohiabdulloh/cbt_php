@@ -78,6 +78,11 @@ for($s=0; $s<count($arr_soal); $s++){
         $mysqli,
         "SELECT * FROM soal WHERE id_soal='$idSoal'"
     ));
+    
+    $rjawab = mysqli_fetch_array(mysqli_query(
+        $mysqli,
+        "SELECT * FROM jawaban WHERE id_soal='$idSoal' AND nis='$siswa[nis]'"
+    ));
 
     if(!$rsoal) continue;
 
@@ -131,7 +136,8 @@ for($s=0; $s<count($arr_soal); $s++){
     // ===========================
     else if($rsoal['jenis'] == 2){
 
-        $kunciArray = explode(',', $rsoal['kunci']);
+        $kunciArray = explode(',', $rsoal['kunci']);       // array kunci, contoh: 1,3,5
+        $jawabArray = explode(',', $rjawab['jawaban']);    // jawaban siswa array
     
         echo "<tr><td></td><td>";
         echo "<table cellpadding='2' cellspacing='0'>";
@@ -140,13 +146,28 @@ for($s=0; $s<count($arr_soal); $s++){
             $kolom = "pilihan_$i";
             if($rsoal[$kolom] == "") continue;
     
-            $style = in_array($i, $kunciArray)
-                ? "style='color:blue;font-weight:bold'"
-                : "";
+            $style = "";
+    
+            // Jika siswa memilih & pilihan itu termasuk kunci → HIJAU
+            if(in_array($i, $jawabArray) && in_array($i, $kunciArray)){
+                $style = "style='color:green;font-weight:bold'";
+            }
+    
+            // Jika siswa memilih tapi bukan kunci → MERAH
+            else if(in_array($i, $jawabArray) && !in_array($i, $kunciArray)){
+                $style = "style='color:red;font-weight:bold'";
+            }
+    
+            // Jika bukan jawaban siswa tetapi termasuk kunci → BIRU
+            else if(!in_array($i, $jawabArray) && in_array($i, $kunciArray)){
+                $style = "style='color:blue;font-weight:bold'";
+            }
     
             echo "
                 <tr>
-                    <td valign='top' width='20'><div style='display:block; width:8px; height:8px; border:1px solid #000;'></div></td>
+                    <td valign='top' width='20'>
+                        <div style='display:block; width:8px; height:8px; border:1px solid #000;'></div>
+                    </td>
                     <td valign='top' width='650' $style>".$rsoal[$kolom]."</td>
                 </tr>";
         }
@@ -154,47 +175,70 @@ for($s=0; $s<count($arr_soal); $s++){
         echo "</table></td></tr>";
     }
 
+
     // ===========================
     //   TIPE 3 – MENCOCOKAN
     // ===========================
     else if($rsoal['jenis'] == 3){
-        $parameter = array_map('trim', explode(',', $rsoal['parameter']));
-        $kunciArray = array_map('trim', explode(',', $rsoal['kunci']));
 
+        $parameter = array_map('trim', explode(',', $rsoal['parameter']));
+        $kunciArray = array_map('trim', explode(',', $rsoal['kunci'])); // kunci baris per baris
+        $jawabArray = explode(',', $rjawab['jawaban']); // contoh: "2,3,1"
+    
         echo "<tr><td></td><td>
                 <table border='1' cellspacing='0' cellpadding='3'>
                     <tr>
                         <td>Pernyataan</td>";
-
+    
         // Header parameter
         foreach($parameter as $p){
             echo "<td align='center'>$p</td>";
         }
-
+    
         echo "</tr>";
-
-        // Baris opsi
+    
+        // Baris pilihan (1 sampai 5)
         for($i=1; $i<=5; $i++){
             $kolom = "pilihan_$i";
             if($rsoal[$kolom] == "") continue;
-
+    
             echo "<tr><td width='300'>".$rsoal[$kolom]."</td>";
-
-            for($j=0; $j<count($parameter); $j++){
-                $isKunci = (isset($kunciArray[$i-1]) && $kunciArray[$i-1] == $j+1);
-
-                if($isKunci){
-                    echo "<td align='center' style='font-weight:bold;color:blue'>v</td>";
-                } else {
-                    echo "<td align='center'>-</td>";
+    
+            for($j=1; $j<=count($parameter); $j++){
+    
+                $isKunci = (isset($kunciArray[$i-1]) && $kunciArray[$i-1] == $j);
+    
+                // Jawaban siswa berdasarkan index (baris ke-i = index ke i-1)
+                $isJawaban = (isset($jawabArray[$i-1]) && $jawabArray[$i-1] == $j);
+    
+                $style = "";
+                $symbol = "-";
+    
+                if($isJawaban && $isKunci){
+                    // siswa pilih & benar → hijau
+                    $style = "style='color:green;font-weight:bold'";
+                    $symbol = "v";
                 }
+                else if($isJawaban && !$isKunci){
+                    // siswa pilih tapi salah → merah
+                    $style = "style='color:red;font-weight:bold'";
+                    $symbol = "v";
+                }
+                else if(!$isJawaban && $isKunci){
+                    // kunci tapi tidak dipilih → biru
+                    $style = "style='color:blue;font-weight:bold'";
+                    $symbol = "v";
+                }
+    
+                echo "<td align='center' $style>$symbol</td>";
             }
-
+    
             echo "</tr>";
         }
-
+    
         echo "</table></td></tr>";
     }
+
 
     // ===========================
     //   TIPE 1 – ESAI

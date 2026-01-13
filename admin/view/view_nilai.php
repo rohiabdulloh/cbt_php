@@ -13,6 +13,7 @@ create_title("check", "Hasil Ujian");
 
 open_content();
 
+create_button("warning", "sync", "Hitung Nilai", "btn-update", "update_nilai()");
 create_button("primary", "file-excel", "Export", "btn-add", "export_nilai()");
 create_button("success", "download", "Download Esay", "btn-download", "download_esay()");
 create_button("danger", "trash", "Reset Nilai", "btn-reset", "reset_all()");

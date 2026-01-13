@@ -11,21 +11,5 @@ $(function(){
    });
 });
 
-//Ketika tombol hapus diklik
-function delete_data(id){
-   if(confirm("Apakah yakin data akan dihapus?")){
-      $.ajax({
-         url : "ajax/ajax_log.php?action=delete&id="+id,
-         type : "GET",
-         success : function(data){
-            table.ajax.reload();
-         },
-         error : function(){
-           showError("Tidak dapat menghapus data!");
-         }
-      });
-   }
-}
-
 
  
